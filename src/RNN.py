@@ -5,11 +5,13 @@ import torch.nn as nn
 import numpy as np
 
 class RNN(nn.Module):
-    def __init__(self, in_size=2, hidden_size=15):
+    def __init__(self, in_size=500, hidden_size=15, out_size=4):
         super(RNN, self).__init__()
+        self.in_size = in_size
+        self.out_size= out_size
         self.w1 = nn.Linear(in_size, hidden_size)
         self.w2 = nn.LSTM(hidden_size,hidden_size,2,dropout=0.05)
-        self.w3 = nn.Linear(hidden_size,4) # Output 4
+        self.w3 = nn.Linear(hidden_size,out_size) # To output weight
         self.sigmoid = nn.Sigmoid() 
         self.softmax = nn.Softmax(dim=0) # For output as probability
         self.cuda() # Use GPU
@@ -19,14 +21,14 @@ class RNN(nn.Module):
         self.optimizer = None
 
 
-    # Expect 10? real-valued input (shape nx10) as list/ndarray both X and y
+    # Expect 500 real-valued input (shape nx10) as list/ndarray both X and y
     def fit(self,X,Y,epoch=100,lr=0.0005):
         try:
             # Data type assertion
             assert(((type(X) == list) or (type(X) == np.ndarray)) and ((type(Y) == list) or (type(Y) == np.ndarray)))
 
             # Reshape to ensure shape
-            X = torch.tensor(X, dtype=torch.float64, requires_grad=True).view((len(X),2)).cuda()
+            X = torch.tensor(X, dtype=torch.float64, requires_grad=True).view((len(X),self.in_size)).cuda()
             Y = torch.tensor(Y, dtype=torch.float64, requires_grad=True).view((len(Y),1)).cuda() 
 
             self.optimizer = torch.optim.Adam(self.parameters(),lr=lr)
@@ -40,7 +42,7 @@ class RNN(nn.Module):
                     loss = self.criterion(pred,Y[i].long()) # Loss function
                     loss.backward(retain_graph=True)
                     self.optimizer.step()
-            return True,self.hidden
+            return True,self.hidden # Finished training and return memory
         except AssertionError:
             print('Input type should be either list or ndarray.')
 
@@ -53,6 +55,7 @@ class RNN(nn.Module):
         z3 = self.sigmoid(z3.squeeze(1)) # Output of LSTM
         return self.softmax(self.w3(z3.cuda()).view(4)), hid # Return prob of len(out) classes and hidden output for recurrent
 
+# Save model for later use
 def save_model(model, name):
     try:
         torch.save(model, name)
@@ -60,13 +63,14 @@ def save_model(model, name):
     except:
         return False
 
+# Load model from file
 def load_model(name):
     try:
         return torch.load(name)
     except:
         return None
     
-
+# For testing purpose
 if __name__ == '__main__':
     net = RNN() # Init NN with 2 in and 15 in hidden
     # net.double() # Not necessary (Maybe)
