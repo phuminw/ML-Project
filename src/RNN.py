@@ -37,7 +37,7 @@ class RNN(nn.Module):
                 for i in range(X.shape[0]):
                     self.optimizer.zero_grad()
                     pred,self.hidden = self.forward(X[i].float()) # Feed forward
-                    pred = pred.view((1,4)) # Prediction in appropiate shape
+                    pred = pred.view((1,self.out_size)) # Prediction in appropiate shape
 
                     loss = self.criterion(pred,Y[i].long()) # Loss function
                     loss.backward(retain_graph=True)
@@ -53,7 +53,7 @@ class RNN(nn.Module):
         a2 = self.sigmoid(z2).cuda() # Output of hidden
         z3, hid = self.w2(a2.unsqueeze(1), self.hidden) # Input to LSTM
         z3 = self.sigmoid(z3.squeeze(1)) # Output of LSTM
-        return self.softmax(self.w3(z3.cuda()).view(4)), hid # Return prob of len(out) classes and hidden output for recurrent
+        return self.softmax(self.w3(z3.cuda()).view(self.out_size)), hid # Return prob of len(out) classes and hidden output for recurrent
 
 # Save model for later use
 def save_model(model, name):
