@@ -27,4 +27,4 @@ model = load_model(PATH) // PATH to .model file
 print(model(input_vector))
 ```
 
-[![asciicast](Papers/assets/Accuracy.png)]
+[![asciicast](Papers/assets/Accuracy.png)](Papers/assets/Accuracy.png)
