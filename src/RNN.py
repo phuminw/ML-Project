@@ -50,10 +50,9 @@ class RNN(nn.Module):
     def forward(self,x):
         x = x.view((1,len(x))) # Preprocess x
         z2 = self.w1(x).cuda() # Input to hidden 
-        a2 = self.sigmoid(z2).cuda() # Output of hidden
+        a2 = self.sigmoid(z2) # Output of hidden
         z3, hid = self.w2(a2.unsqueeze(1), self.hidden) # Input to LSTM
-        z3 = self.sigmoid(z3.squeeze(1)) # Output of LSTM
-        return self.softmax(self.w3(z3.cuda()).view(self.out_size)), hid # Return prob of len(out) classes and hidden output for recurrent
+        return self.softmax(self.w3(z3.squeeze(1)).view(self.out_size)), hid # Return prob of len(out) classes and hidden output for recurrent
 
 # Save model for later use
 def save_model(model, name):
