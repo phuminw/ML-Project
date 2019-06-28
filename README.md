@@ -9,5 +9,20 @@ Stocks price is known to be fairly sensitive to news and the response on the pri
 
 ## Running
 
-Training new model: simply run 'main.py'
-Loading existing model: import 'load_model' from 'RNN.py', which return a model and feed in a appropiate size of boolean vector (currently 10)
+### Training new model
+```
+./main.py
+```
+Two files will be saved: one is the .model and another one is the accuracy from KFold cross validation.
+
+### Loading existing model:
+
+Add following lines to the script that will feed a boolean vector from TfidfVectorizer (size 10 for AMZN.model) to the model.
+
+```
+from RNN import load_model
+
+model = load_model(PATH) // PATH to .model file
+
+print(model(input_vector))
+```
