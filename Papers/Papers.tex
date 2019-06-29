@@ -19,15 +19,22 @@ Boston University\\
 \begin{document}
 \maketitle
 \begin{abstract}
-    To add abstract bibibikb
+The stock market is known to show emerging trends in the way of its computation and it is times
+ of volatility that spontaneous judgments are needed to be made to speculate price behaviour.
+ A platform which trains a predictive model through mining the news for headlines and words
+ pertaining demonstrating an ascertainable correlation to share price changes is exemplary to
+ the application of AI in finance. With the use of recurrent neural networks that incorporate LSTM,
+ logistic regression, naïve bayes, term frequency and a simultaneous focus on political events keeping
+ in mind the obsolete tendency. This attributes to the automation dynamic of the pertinent algorithms
+ that would be amended to such occurrences.
+ \\\\
+ An example of this is, the dense implementation of blockchain in financial circulation that would
+ give regulation less effective control of the financial industry and its cohorts. By this measure,
+ the inability of the federal reserve to intervene in fabric of the stock market (with blockchain,
+ monetary policy will not affect share prices). This is one conceptual aspect of several that call for
+ existing models and algorithms to be subject to amendments. Cross validations are also performed between
+ years and on a continuum to increase precision of the models and optimise them.
 \end{abstract}
-\section{Background}
-Stocks market has been known to be volatile and sentitive to facctors, including news and statistics.
- Speculation on stocks movement requires complicated techniques and models, still the result is not
- satisfactory.
-\subsection{Indicators}
-Nothing here for now 
-
 \section{Dataset}
 Some text for second section
 
@@ -65,6 +72,17 @@ Before begin training the model, the dataset, 100 samples in this case, must be 
  the boolean vector. It has 4 hidden nodes between the input layer and the LSTM and use sigmoid as an activation
  function. After LSTM module, the output layer consisting of 2 nodes uses softmax as an activation function in order
  to represent output as a probability of classification.
+\\\\
+During the training period of the network, the parameters (learning rate, $max_feature$, and number of sample) have
+ to be adjusted to some specific configuration in order to show the improvement of training as shown in Figure 1.
+ Greater or lesser the value of parameters will result in stationary accuracy since the first epoch, which is not
+ useful for parameter tuning process and training process.
+\\\\
+Currently, the only indicator that was taken into account is news headlines as a boolean vector through $TfidfVectorizer$.
+ However, there are more factors that can be used as indicators for prediction, for instance, the unemployment rate,
+ volume, social network, interest rate, etc. Those indicators should be fed into the network as well, but they need
+ to be processed/weighted appropiately proportional to the importance of each indicator. As described, there are lots
+ of rooms for improvement for this network and also for integrating other techniques to improve the accuracy of prediction.
 \section*{References}
 if needed
 
